@@ -4,23 +4,26 @@ class Work extends React.Component {
   state = {
     intervalID: null,
     timerGoing: false,
-    defaultTime: '25:00',
+    timeLeftOnPause: null,
   };
 
-  startTimer = () => {
+  startTimer = seconds => {
+    clearInterval(this.state.intervalID); //clear any ongoing timer
     const self = this; // to preserve this inside setInterval
-    const countDownTo = Math.round(new Date().getTime() / 1000) + 0.1 * 60;
+    const countDownTo = Math.round(new Date().getTime() / 1000) + seconds;
 
     const timerID = setInterval(function() {
       const now = Math.round(new Date().getTime() / 1000);
       // Find the secondsLeft between now and the count down date
       const secondsLeft = countDownTo - now;
+      self.setState({ timeLeftOnPause: secondsLeft });
       const minutes = Math.floor((secondsLeft % (60 * 60)) / 60);
       const seconds = Math.floor(secondsLeft % 60);
 
       document.querySelector('#workTimer').innerHTML = '<h2>' + minutes + ':' + seconds + '</h2>';
 
       if (secondsLeft < 1) {
+        document.querySelector('#workSound').play();
         clearInterval(timerID);
         self.setState({ intervalID: null, timerGoing: false });
         self.props.onWorkComplete();
@@ -30,26 +33,56 @@ class Work extends React.Component {
     this.setState({ intervalID: timerID, timerGoing: true });
   };
 
-  resetTimer = () => {
-    if (this.state.intervalID) {
-      clearInterval(this.state.intervalID);
-      this.startTimer();
-    }
+  pauseTimer = () => {
+    clearInterval(this.state.intervalID);
+    this.setState({ intervalID: null, timerGoing: false });
   };
 
   printButton = () => {
     if (this.state.timerGoing) {
       return (
-        <div onClick={this.resetTimer} className="ui  yellow animated button">
-          <div className="visible content">Reset</div>
+        <div>
+          <div
+            onClick={() => {
+              this.startTimer(6);
+            }}
+            className="ui orange animated button"
+          >
+            <div className="visible content">Reset</div>
+            <div className="hidden content">
+              <i className="history icon" />
+            </div>
+          </div>
+          <div onClick={this.pauseTimer} className="ui yellow animated button">
+            <div className="visible content">Pause</div>
+            <div className="hidden content">
+              <i className="pause icon" />
+            </div>
+          </div>
+        </div>
+      );
+    } else if (this.state.timeLeftOnPause) {
+      return (
+        <div
+          onClick={() => {
+            this.startTimer(this.state.timeLeftOnPause);
+          }}
+          className="ui blue animated button"
+        >
+          <div className="visible content">Resume</div>
           <div className="hidden content">
-            <i className="history icon" />
+            <i className="play icon" />
           </div>
         </div>
       );
     } else {
       return (
-        <div onClick={this.startTimer} className="ui teal animated button">
+        <div
+          onClick={() => {
+            this.startTimer(6);
+          }}
+          className="ui teal animated button"
+        >
           <div className="visible content">Start</div>
           <div className="hidden content">
             <i className="stopwatch icon" />
@@ -63,7 +96,7 @@ class Work extends React.Component {
     return (
       <div className="ui container">
         <h1>WORK!</h1>
-        <h2 id="workTimer">{this.state.defaultTime}</h2>
+        <h2 id="workTimer">25:00</h2>
         {this.printButton()}
       </div>
     );

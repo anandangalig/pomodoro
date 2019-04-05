@@ -21,6 +21,7 @@ class Break extends React.Component {
       document.querySelector('#breakTimer').innerHTML = '<h2>' + minutes + ':' + seconds + '</h2>';
 
       if (secondsLeft < 1) {
+        document.querySelector('#breakSound').play();
         clearInterval(timerID);
         self.setState({ intervalID: null, timerGoing: false });
         self.props.onBreakComplete();
@@ -66,9 +67,9 @@ class Break extends React.Component {
         <h2 id="breakTimer">{this.state.defaultTime}</h2>
         {this.printButton()}
         <div onClick={this.props.onBreakComplete} className="ui blue animated button">
-          <div className="visible content">I'm in beast mode, let's skip this break</div>
+          <div className="visible content">Skip break</div>
           <div className="hidden content">
-            <i className="stopwatch icon" />
+            <i className="angle double right icon" />
           </div>
         </div>
       </div>

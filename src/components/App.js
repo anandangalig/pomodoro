@@ -11,18 +11,18 @@ class App extends React.Component {
     this.onBreakComplete = this.onBreakComplete.bind(this);
   }
 
-  onWorkComplete() {
+  onWorkComplete = () => {
     this.setState({
       pomodorosCount: this.state.pomodorosCount + 1,
       takingBreak: true,
     });
-  }
+  };
 
-  onBreakComplete() {
+  onBreakComplete = () => {
     this.setState({
       takingBreak: false,
     });
-  }
+  };
 
   _renderComponent = () => {
     if (this.state.takingBreak) {
@@ -34,8 +34,18 @@ class App extends React.Component {
   render = () => {
     return (
       <div className="ui center aligned container">
-        <CountCompleted pomodorosCount={this.state.pomodorosCount} />
-        {this._renderComponent()}
+        <div className="ui centered card">
+          <div className="content">
+            <CountCompleted pomodorosCount={this.state.pomodorosCount} />
+            {this._renderComponent()}
+            <audio id="breakSound" preload="auto">
+              <source src="./assets/notification_sound.mp3" type="audio/mpeg" />
+            </audio>
+            <audio id="workSound" preload="auto">
+              <source src="./assets/smb_powerup.wav" type="audio/wav" />
+            </audio>
+          </div>
+        </div>
       </div>
     );
   };
