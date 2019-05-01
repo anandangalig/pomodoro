@@ -16,7 +16,8 @@ class Break extends React.Component {
       // Find the secondsLeft between now and the count down date
       const secondsLeft = countDownTo - now;
       const minutes = Math.floor((secondsLeft % (60 * 60)) / 60);
-      const seconds = Math.floor(secondsLeft % 60);
+      let seconds = Math.floor(secondsLeft % 60);
+      seconds = (seconds < 10 ? '0' : '') + seconds;
 
       document.querySelector('#breakTimer').innerHTML = '<h2>' + minutes + ':' + seconds + '</h2>';
 
@@ -38,6 +39,10 @@ class Break extends React.Component {
     }
   };
 
+  skipBreak = () => {
+    clearInterval(this.state.intervalID);
+    this.props.onBreakComplete();
+  };
   printButton = () => {
     if (this.state.timerGoing) {
       return (
@@ -66,7 +71,7 @@ class Break extends React.Component {
         <h1>Take a break! You've earned it.</h1>
         <h2 id="breakTimer">{this.state.defaultTime}</h2>
         {this.printButton()}
-        <div onClick={this.props.onBreakComplete} className="ui blue animated button">
+        <div onClick={this.skipBreak} className="ui blue animated button">
           <div className="visible content">Skip break</div>
           <div className="hidden content">
             <i className="angle double right icon" />

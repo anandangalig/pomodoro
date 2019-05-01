@@ -18,7 +18,8 @@ class Work extends React.Component {
       const secondsLeft = countDownTo - now;
       self.setState({ timeLeftOnPause: secondsLeft });
       const minutes = Math.floor((secondsLeft % (60 * 60)) / 60);
-      const seconds = Math.floor(secondsLeft % 60);
+      let seconds = Math.floor(secondsLeft % 60);
+      seconds = (seconds < 10 ? '0' : '') + seconds;
 
       document.querySelector('#workTimer').innerHTML = '<h2>' + minutes + ':' + seconds + '</h2>';
 
@@ -41,10 +42,19 @@ class Work extends React.Component {
   printButton = () => {
     if (this.state.timerGoing) {
       return (
+        <div onClick={this.pauseTimer} className="ui yellow animated button">
+          <div className="visible content">Pause</div>
+          <div className="hidden content">
+            <i className="pause icon" />
+          </div>
+        </div>
+      );
+    } else if (this.state.timeLeftOnPause) {
+      return (
         <div>
           <div
             onClick={() => {
-              this.startTimer(6);
+              this.startTimer(5);
             }}
             className="ui orange animated button"
           >
@@ -53,25 +63,17 @@ class Work extends React.Component {
               <i className="history icon" />
             </div>
           </div>
-          <div onClick={this.pauseTimer} className="ui yellow animated button">
-            <div className="visible content">Pause</div>
+
+          <div
+            onClick={() => {
+              this.startTimer(this.state.timeLeftOnPause);
+            }}
+            className="ui blue animated button"
+          >
+            <div className="visible content">Resume</div>
             <div className="hidden content">
-              <i className="pause icon" />
+              <i className="play icon" />
             </div>
-          </div>
-        </div>
-      );
-    } else if (this.state.timeLeftOnPause) {
-      return (
-        <div
-          onClick={() => {
-            this.startTimer(this.state.timeLeftOnPause);
-          }}
-          className="ui blue animated button"
-        >
-          <div className="visible content">Resume</div>
-          <div className="hidden content">
-            <i className="play icon" />
           </div>
         </div>
       );
@@ -79,7 +81,7 @@ class Work extends React.Component {
       return (
         <div
           onClick={() => {
-            this.startTimer(6);
+            this.startTimer(5);
           }}
           className="ui teal animated button"
         >
