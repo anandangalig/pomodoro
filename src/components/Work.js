@@ -39,6 +39,12 @@ class Work extends React.Component {
     this.setState({ intervalID: null, timerGoing: false });
   };
 
+  resetWorkTimer = () => {
+    clearInterval(this.state.intervalID);
+    this.setState({ intervalID: null, timerGoing: false, timeLeftOnPause: null });
+    document.querySelector('#workTimer').innerHTML = '<h2>25:00</h2>';
+  };
+
   printButton = () => {
     if (this.state.timerGoing) {
       return (
@@ -54,7 +60,7 @@ class Work extends React.Component {
         <div>
           <div
             onClick={() => {
-              this.startTimer(1500);
+              this.resetWorkTimer();
             }}
             className="ui orange animated button"
           >
