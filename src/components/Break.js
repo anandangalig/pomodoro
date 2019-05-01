@@ -9,7 +9,7 @@ class Break extends React.Component {
 
   startTimer = () => {
     const self = this; // to preserve this inside setInterval
-    const countDownTo = Math.round(new Date().getTime() / 1000) + 0.1 * 60;
+    const countDownTo = Math.round(new Date().getTime() / 1000) + 5 * 60;
 
     const timerID = setInterval(function() {
       const now = Math.round(new Date().getTime() / 1000);

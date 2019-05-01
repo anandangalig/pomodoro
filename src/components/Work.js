@@ -54,7 +54,7 @@ class Work extends React.Component {
         <div>
           <div
             onClick={() => {
-              this.startTimer(5);
+              this.startTimer(1500);
             }}
             className="ui orange animated button"
           >
@@ -81,7 +81,7 @@ class Work extends React.Component {
       return (
         <div
           onClick={() => {
-            this.startTimer(5);
+            this.startTimer(1500);
           }}
           className="ui teal animated button"
         >
