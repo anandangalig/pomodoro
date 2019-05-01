@@ -3,7 +3,7 @@ import React from 'react';
 const CountCompleted = props => {
   return (
     <div>
-      <h2>Count: {props.pomodorosCount}</h2>
+      <h3 className='color_accent'>count: {props.pomodorosCount}</h3>
     </div>
   );
 };

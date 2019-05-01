@@ -1,0 +1,9 @@
+#root {
+  padding-top: 10%;
+}
+body {
+  background-color: #002e63;
+}
+.color_accent{
+  color: tomato;
+}

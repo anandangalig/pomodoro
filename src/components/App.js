@@ -2,6 +2,7 @@ import React from 'react';
 import CountCompleted from './CountCompleted';
 import Work from './Work';
 import Break from './Break';
+import './App.css';
 
 class App extends React.Component {
   constructor(props) {
@@ -34,7 +35,12 @@ class App extends React.Component {
   render = () => {
     return (
       <div className="ui center aligned container">
-        <div className="ui centered card">
+        <div className='ui centered container card'>
+          <h1>Pomodoro Counter</h1>
+          <p>25 min work + 5 min brake</p>
+          <a rel="noopener noreferrer" href='https://github.com/anandangalig/pomodoro' target='_blank'>See code on GitHub</a>
+        </div>
+        <div className="ui centered container card">
           <div className="content">
             <CountCompleted pomodorosCount={this.state.pomodorosCount} />
             {this._renderComponent()}
